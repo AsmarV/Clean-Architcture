@@ -1,0 +1,89 @@
+# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
+#
+# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
+# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
+# invoked from the command line by running `flutter analyze`.
+
+# The following line activates a set of recommended lints for Flutter apps,
+# packages, and plugins designed to encourage good coding practices.
+#include: package:flutter_lints/flutter.yaml
+#include: package:lints/recommended.yaml
+
+linter:
+  rules:
+    - file_names
+    - no_duplicate_case_values
+    - avoid_empty_else
+    - camel_case_extensions
+    - empty_catches
+    - prefer_final_fields
+    - prefer_final_locals
+    - unnecessary_const
+    - no_logic_in_create_state
+    - prefer_void_to_null
+    - throw_in_finally
+    - library_names
+    - camel_case_types
+    - avoid_print
+    - library_prefixes
+    - close_sinks
+    - cancel_subscriptions
+    - comment_references
+    - empty_statements
+    - iterable_contains_unrelated_type
+    - list_remove_unrelated_type
+    #   - prefer_relative_imports
+    - unrelated_type_equality_checks
+    - always_declare_return_types
+    - annotate_overrides
+    - avoid_multiple_declarations_per_line
+    - avoid_returning_null
+    - avoid_returning_null_for_void
+    - flutter_style_todos
+    - prefer_is_empty
+    - unnecessary_brace_in_string_interps
+    - unnecessary_overrides
+    - prefer_const_constructors
+    - prefer_const_constructors_in_immutables
+    - prefer_const_declarations
+
+
+analyzer:
+  plugins:
+    - dart_code_metrics
+  errors:
+    dead_code: info
+    avoid_print: error
+    empty_catches: error
+    missing_return: error
+    camel_case_types: error
+    prefer_final_fields: error
+    prefer_final_locals: error
+    invalid_assignment: warning
+    no_duplicate_case_values: error
+
+dart_code_metrics:
+
+  metrics:
+    cyclomatic-complexity: 20
+    number-of-arguments: 8
+    lines-of-code: 100
+    source-lines-of-code: 70
+    number-of-methods: 20
+
+  metrics-exclude:
+    - test/**
+    - lib/core/navigation/**
+
+  rules:
+    - prefer-trailing-comma:
+        severity: style
+    - no-boolean-literal-compare
+    - no-empty-block:
+        severity: warning
+
+
+  anti-patterns:
+    - long-method:
+        severity: warning
