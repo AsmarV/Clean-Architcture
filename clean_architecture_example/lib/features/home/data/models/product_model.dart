@@ -1,58 +1,57 @@
 class ProductModel {
-  int? id;
-  String? title;
-  String? description;
-  double? price;
-  double? discountPercentage;
-  double? rating;
-  int? stock;
-  String? brand;
-  String? category;
-  String? thumbnail;
-  List<String>? images;
+  final int id;
+  final String title;
+  final String description;
+  final double price;
+  final double discountPercentage;
+  final double rating;
+  final int stock;
+  final String brand;
+  final String category;
+  final String thumbnail;
+  final List<String> images;
 
-  ProductModel(
-      {this.id,
-      this.title,
-      this.description,
-      this.price,
-      this.discountPercentage,
-      this.rating,
-      this.stock,
-      this.brand,
-      this.category,
-      this.thumbnail,
-      this.images});
+  ProductModel({
+    this.id = -1,
+    this.title = '',
+    this.description = '',
+    this.price = 0.0,
+    this.discountPercentage = 0.0,
+    this.rating = 0.0,
+    this.stock = 0,
+    this.brand = '',
+    this.category = '',
+    this.thumbnail = '',
+    this.images = const [],
+  });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'],
-      title: json['title'],
+      id: json['id'] ?? -1,
+      title: json['title'] ?? "",
       description: json['description'],
-      price: double.parse(json['price']?.toString() ?? '0'),
-      discountPercentage: double.parse(json['discountPercentage']?.toString() ?? '0'),
-      rating: double.parse(json['rating']?.toString() ?? '0'),
-      stock: json['stock'],
-      brand: json['brand'],
-      category: json['category'],
-      thumbnail: json['thumbnail'],
-      images: json['images'].cast<String>(),
+      price: double.tryParse(json['price']?.toString() ?? '0') ?? 0.0,
+      discountPercentage: double.tryParse(json['discountPercentage']?.toString() ?? '0') ?? 0.0,
+      rating: double.tryParse(json['rating']?.toString() ?? '0') ?? 0.0,
+      stock: json['stock'] ?? 0,
+      brand: json['brand'] ?? '',
+      category: json['category'] ?? '',
+      thumbnail: json['thumbnail'] ?? '',
+      images: json['images']?.cast<String>() ?? [],
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['price'] = this.price;
-    data['discountPercentage'] = this.discountPercentage;
-    data['rating'] = this.rating;
-    data['stock'] = this.stock;
-    data['brand'] = this.brand;
-    data['category'] = this.category;
-    data['thumbnail'] = this.thumbnail;
-    data['images'] = this.images;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        'id': this.id,
+        'title': this.title,
+        'description': this.description,
+        'price': this.price,
+        'discountPercentage': this.discountPercentage,
+        'rating': this.rating,
+        'stock': this.stock,
+        'brand': this.brand,
+        'category': this.category,
+        'thumbnail': this.thumbnail,
+        'images': this.images,
+      };
 }

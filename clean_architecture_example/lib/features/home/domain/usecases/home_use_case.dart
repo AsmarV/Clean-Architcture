@@ -1,16 +1,18 @@
+import 'package:clean_architecture_example/features/home/data/models/product_model.dart';
 import 'package:clean_architecture_example/features/home/domain/repositories/home_repository.dart';
-import 'package:clean_architecture_example/services/networks/network_response.dart';
+import 'package:dartz/dartz.dart';
 
 abstract class HomeUseCase {
-  Future<NetworkResponse> getAllProducts();
+  Future<Either<String, List<ProductModel>>> getAllProducts();
 }
 
 class HomeUseCaseImpl extends HomeUseCase {
   final HomeRepository homeRepository;
+
   HomeUseCaseImpl(this.homeRepository);
 
   @override
-  Future<NetworkResponse> getAllProducts() async {
+  Future<Either<String, List<ProductModel>>> getAllProducts() async {
     return await homeRepository.getAllProducts();
   }
 }

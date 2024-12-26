@@ -1,18 +1,19 @@
-
-
 import 'package:clean_architecture_example/core/core.export.dart';
 import 'package:flutter/material.dart';
 
-
-import '../constants/constants.export.dart';
-
+enum SnackBarStatus {
+  Error,
+  Success,
+  Warning,
+  Update,
+}
 
 ///CUSTOM SNACK-BAR TO ALL SCAFFOLD
-void appSnackBar({required String title, required String type}) {
+void appSnackBar({required String title, required SnackBarStatus type}) {
   scaffoldKey.currentState!.showSnackBar(SnackBar(
       behavior: SnackBarBehavior.floating,
       backgroundColor: getColorSnackBar(type),
-      duration: Duration(milliseconds: type == "error" ? 2000 : 800),
+      duration: Duration(milliseconds: type == SnackBarStatus.Error ? 2000 : 800),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       padding: EdgeInsets.only(bottom: sized16(), top: sized16()),
       margin: const EdgeInsets.only(
@@ -38,10 +39,8 @@ void appSnackBar({required String title, required String type}) {
             child: Text(
               "${getMessages(title)}",
               textAlign: TextAlign.start,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                  fontSize: font(0.28)),
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: font(0.28)),
             ),
           ),
         ],
@@ -49,17 +48,15 @@ void appSnackBar({required String title, required String type}) {
 }
 
 ///COLORS BY TYPE
-Color getColorSnackBar(String type) {
-  final String convert = type.toLowerCase();
-
-  switch (convert) {
-    case "error":
+Color getColorSnackBar(SnackBarStatus type) {
+  switch (type) {
+    case SnackBarStatus.Error:
       return Colors.red.shade900;
-    case "warning":
+    case SnackBarStatus.Warning:
       return Colors.yellow.shade900;
-    case "success":
+    case SnackBarStatus.Success:
       return Colors.green.shade900;
-    case "update":
+    case SnackBarStatus.Update:
       return Colors.blueGrey.shade900;
     default:
       return Colors.black87;
@@ -67,29 +64,27 @@ Color getColorSnackBar(String type) {
 }
 
 ///ICON BY TYPE
-Widget getIconSnackBar(String type) {
-  final String convert = type.toLowerCase();
-
-  switch (convert) {
-    case "error":
+Widget getIconSnackBar(SnackBarStatus type) {
+  switch (type) {
+    case SnackBarStatus.Error:
       return Icon(
         Icons.cancel_outlined,
         color: Colors.white,
         size: font(0.4),
       );
-    case "warning":
+    case SnackBarStatus.Warning:
       return Icon(
         Icons.warning_amber_rounded,
         color: Colors.white,
         size: font(0.4),
       );
-    case "success":
+    case SnackBarStatus.Success:
       return Icon(
         Icons.check_circle_outline,
         color: Colors.white,
         size: font(0.4),
       );
-    case "update":
+    case SnackBarStatus.Update:
       return Icon(
         Icons.update_rounded,
         color: Colors.white,

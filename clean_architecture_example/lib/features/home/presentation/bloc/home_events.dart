@@ -1,3 +1,5 @@
-abstract class HomeEvents{}
+part of 'home_bloc.dart';
 
-class GetAllProducts extends HomeEvents{}
+abstract class HomeEvents {}
+
+class GetAllProducts extends HomeEvents {}

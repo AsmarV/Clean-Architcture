@@ -1,49 +1,43 @@
-
-
+import 'package:clean_architecture_example/core/core.export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../../../../theme/theme.export.dart';
-import '../../data/datasources/home_network_datasource.dart';
-import '../../data/repositories/home_repository_imp.dart';
-import '../../domain/repositories/home_repository.dart';
-import '../../domain/usecases/home_use_case.dart';
-import '../bloc/home_bloc.export.dart';
-import '../widgets/home_view_success.dart';
+import '../bloc/home_bloc.dart';
+import '../widgets/dynamic_height_grid_view.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final HomeNetworkDataSource datasource = HomeNetworkDataSourceImp();
-    final HomeRepository repository = HomeRepositoryImp(datasource);
-    final HomeUseCase homeUseCase = HomeUseCaseImpl(repository);
-    final bloc = HomeBloc(homeUseCase);
-    bloc.add(GetAllProducts());
-
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Home',
-            style: buttonTextStyle,
-          ),
+      appBar: AppBar(
+        title: const Text(
+          'Home',
+          style: buttonTextStyle,
         ),
-        body: _buildView(bloc)
+      ),
+      body: _buildView(),
     );
   }
 
-  Widget _buildView(HomeBloc bloc){
-    return BlocBuilder<HomeBloc, HomeStates>(
-      bloc: bloc,
+  Widget _buildView() {
+    return BlocConsumer<HomeBloc, HomeStates>(
+      listenWhen: (previous, current) => previous != current,
+      buildWhen: (previous, current) => previous.status != current.status,
+      listener: (context, state) {
+        if (state.status == HomeStateStatus.ERROR) {
+          appSnackBar(title: state.showMessage!, type: SnackBarStatus.Error);
+        }
+      },
       builder: (context, state) {
-        if (state.states == HomeStateStatus.LOADING) {
+        if (state.status == HomeStateStatus.LOADING) {
           return const LinearProgressIndicator();
-        } else if (state.states == HomeStateStatus.SUCCESS) {
-          return HomeViewSuccess(prods: state.products);
-        } else if (state.states == HomeStateStatus.ERROR) {
-          return const LinearProgressIndicator();
+        } else if (state.status == HomeStateStatus.SUCCESS) {
+          return DynamicHeightGridView(str: state.products);
+        } else if (state.status == HomeStateStatus.EMPTY) {
+          return const SizedBox();
         } else {
           return const SizedBox();
         }

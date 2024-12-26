@@ -1,7 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clean_architecture_example/core/utils/cache_image_view.dart';
 import 'package:clean_architecture_example/features/home/data/models/product_model.dart';
-import 'package:clean_architecture_example/features/home/presentation/widgets/cache_image_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/responsive.dart';
@@ -18,10 +16,7 @@ class DynamicHeightGridView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _listView(getTwoList(str, true)),
-          _listView(getTwoList(str, false))
-        ],
+        children: [_listView(getTwoList(str, true)), _listView(getTwoList(str, false))],
       ),
     );
   }
@@ -50,7 +45,7 @@ class DynamicHeightGridView extends StatelessWidget {
             ),
             child: Column(
               children: [
-                CachedImageView(img: str[index].thumbnail!),
+                CachedImageView(img: str[index].thumbnail),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -59,15 +54,15 @@ class DynamicHeightGridView extends StatelessWidget {
                       height: sized16() / 2,
                     ),
                     Text(
-                      str[index].title ?? '',
+                      str[index].title,
                       style: headline3Style,
                     ),
                     Text(
-                      str[index].description ?? '',
+                      str[index].description,
                       style: desTextStyle,
                     ),
                     Text(
-                      str[index].price?.toString() ?? '',
+                      str[index].price.toString(),
                       style: titleBold,
                     )
                   ],

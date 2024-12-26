@@ -1,8 +1,7 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/responsive.dart';
+import 'responsive.dart';
 
 class CachedImageView extends StatelessWidget {
   const CachedImageView({super.key, required this.img});
@@ -12,7 +11,7 @@ class CachedImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(sized16()/2),
+      borderRadius: BorderRadius.circular(sized16() / 2),
       child: CachedNetworkImage(
         imageUrl: img,
         placeholder: (context, url) => Image.asset(
