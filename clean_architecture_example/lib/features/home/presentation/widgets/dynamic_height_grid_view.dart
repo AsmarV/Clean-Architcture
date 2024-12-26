@@ -12,17 +12,22 @@ class DynamicHeightGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final leftColumn = getFilteredList(str, true);
+    final rightColumn = getFilteredList(str, false);
     return SingleChildScrollView(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_listView(getTwoList(str, true)), _listView(getTwoList(str, false))],
+        children: [
+          _listView(leftColumn),
+          _listView(rightColumn),
+        ],
       ),
     );
   }
 
   Widget _listView(List<ProductModel> str) {
-    return Expanded(
+    return Flexible(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListView.builder(
@@ -46,27 +51,10 @@ class DynamicHeightGridView extends StatelessWidget {
             child: Column(
               children: [
                 CachedImageView(img: str[index].thumbnail),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      height: sized16() / 2,
-                    ),
-                    Text(
-                      str[index].title,
-                      style: headline3Style,
-                    ),
-                    Text(
-                      str[index].description,
-                      style: desTextStyle,
-                    ),
-                    Text(
-                      str[index].price.toString(),
-                      style: titleBold,
-                    )
-                  ],
-                )
+                SizedBox(width: double.infinity, height: sized16() / 2),
+                Text(str[index].title, style: headline3Style),
+                Text(str[index].description, style: desTextStyle),
+                Text(str[index].price.toString(), style: titleBold)
               ],
             ),
           ),
@@ -75,22 +63,12 @@ class DynamicHeightGridView extends StatelessWidget {
     );
   }
 
-  List<ProductModel> getTwoList(List<ProductModel> originalList, bool isLift) {
-    // Two lists to store elements based on index
-    final List<ProductModel> list1 = [];
-    final List<ProductModel> list2 = [];
-
-    // Iterate through the original list and distribute elements based on index
-    for (int i = 0; i < originalList.length; i++) {
-      if (i % 2 == 0) {
-        // Add elements at even indices to list1
-        list1.add(originalList[i]);
-      } else {
-        // Add elements at odd indices to list2
-        list2.add(originalList[i]);
-      }
-    }
-
-    return isLift ? list1 : list2;
+  List<ProductModel> getFilteredList(List<ProductModel> originalList, bool isLeft) {
+    return originalList
+        .asMap()
+        .entries
+        .where((entry) => (entry.key % 2 == 0) == isLeft)
+        .map((entry) => entry.value)
+        .toList();
   }
 }
