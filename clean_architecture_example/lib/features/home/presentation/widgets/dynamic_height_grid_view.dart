@@ -49,6 +49,7 @@ class DynamicHeightGridView extends StatelessWidget {
               ],
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CachedImageView(img: str[index].thumbnail),
                 SizedBox(width: double.infinity, height: sized16() / 2),
